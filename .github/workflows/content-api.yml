@@ -24,5 +24,6 @@ jobs:
         repo: fabmedical/content-api
         region: us-east-1
         path: ./content-api
+        dockerfile: "./content-api/Dockerfile"
         tags: latest,${{ github.sha }}
         
