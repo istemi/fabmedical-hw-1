@@ -1,0 +1,28 @@
+name: content-api
+
+# This workflow is triggered on push to the 'content-web' directory of the  main branch of the repository
+on:
+  push:
+    branches:
+    - main
+    paths:
+    - 'content-api/**'
+
+  # Configure workflow to also support triggering manually
+  workflow_dispatch:
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: docker://ghcr.io/kciter/aws-ecr-action:latest
+      with:
+        access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        account_id: ${{ secrets.AWS_ACCOUNT_ID }}
+        repo: fabmedical/content-api
+        region: us-east-1
+        path: ./content-api
+        tags: latest,${{ github.sha }}
+        
